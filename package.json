@@ -1,14 +1,16 @@
 {
   "name": "exchange",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Exchange project",
+  "main": "docker-compose.yml",
   "dependencies": {},
   "devDependencies": {
     "fuge": "^2.0.2"
   },
   "scripts": {
-    "start": "fuge shell fuge-config.yml",
+    "start": "docker-compose up",
+    "stop": "docker-compose stop",
+    "dev": "fuge shell fuge-config.yml",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "FelipeBarrosCruz<felipe.barros.pt@gmail.com>",
