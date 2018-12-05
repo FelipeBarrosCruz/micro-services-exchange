@@ -1,0 +1,5 @@
+{
+  "name": "test",
+  "logLevel": "info",
+  "timeout": 12000
+}

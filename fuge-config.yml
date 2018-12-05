@@ -1,0 +1,55 @@
+fuge_global:
+  tail: true
+  monitor: true
+  monitor_excludes:
+    - '**/node_modules/**'
+    - '**/.git/**'
+    - '*.log'
+  environment:
+    - NODE_ENV=development
+nats:
+  image: 'nats:0.8.0'
+  type: container
+  entrypoint: "/gnatsd -DV"
+  expose:
+    - "4222"
+    - "8222"
+  ports:
+    - nats=8222:8222
+    - nats=4222:4222
+api:
+  type: process
+  path: api
+  run: 'npm start'
+  ports:
+    - webapp=3000
+  environment:
+      - APP_PORT=3000
+      - NATS_URI=nats://localhost:4222
+conversion:
+  type: process
+  path: services/conversion
+  run: 'npm start'
+  environment:
+      - SERVICE_NAME=conversion
+      - NATS_URI=nats://localhost:4222
+      - LOG_LEVEL=info
+      - TIMEOUT=9000
+flat-rate:
+  type: process
+  path: services/flat-rate
+  run: 'npm start'
+  environment:
+      - SERVICE_NAME=flat-rate
+      - NATS_URI=nats://localhost:4222
+      - LOG_LEVEL=info
+      - TIMEOUT=9000
+crypto-rate:
+  type: process
+  path: services/crypto-rate
+  run: 'npm start'
+  environment:
+      - SERVICE_NAME=crypto-rate
+      - NATS_URI=nats://localhost:4222
+      - LOG_LEVEL=info
+      - TIMEOUT=9000
