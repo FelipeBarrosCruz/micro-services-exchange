@@ -1,0 +1,80 @@
+version: '3'
+services:
+  nats:
+    image: 'nats:0.8.0'
+    entrypoint: "/gnatsd -DV"
+    expose:
+      - "4222"
+    ports:
+      - "8222:8222"
+    hostname: nats-server
+    networks: 
+      - nats-net
+
+  conversion:
+    build: ./services/conversion
+    links:
+      - nats
+    volumes: 
+      - ./services/conversion:/src
+    environment:
+      NATS_URI: nats://nats:4222
+      SERVICE_NAME: conversion
+      LOG_LEVEL: info
+      TIMEOUT: 9000
+    depends_on:
+      - nats
+    networks: 
+      - nats-net
+
+  crypto-rate:
+    build: ./services/crypto-rate
+    links:
+      - nats
+    volumes: 
+      - ./services/crypto-rate:/src
+    environment:
+      NATS_URI: nats://nats:4222
+      SERVICE_NAME: crypto-rate
+      LOG_LEVEL: info
+      TIMEOUT: 9000
+    depends_on:
+      - nats
+    networks: 
+      - nats-net
+
+  flat-rate:
+    build: ./services/flat-rate
+    links:
+      - nats
+    volumes: 
+      - ./services/flat-rate:/src
+    environment:
+      NATS_URI: nats://nats:4222
+      SERVICE_NAME: flat-rate
+      LOG_LEVEL: info
+      TIMEOUT: 9000
+    depends_on:
+      - nats
+    networks: 
+      - nats-net
+
+  api:
+    build: ./api
+    links:
+      - nats
+    volumes: 
+      - ./api:/src
+    environment:
+      NATS_URI: nats://nats:4222
+      APP_PORT: 3000
+    depends_on:
+      - nats
+    ports:
+      - "3000:3000"
+    networks: 
+      - nats-net
+
+networks: 
+  nats-net:
+    driver: bridge
