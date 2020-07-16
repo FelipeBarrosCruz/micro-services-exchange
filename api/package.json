@@ -17,7 +17,7 @@
     "hemera-stats": "^5.2.3",
     "inert": "^5.1.2",
     "joi": "^14.3.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "vision": "^5.4.3",
     "world-currencies": "0.0.9"
   },
