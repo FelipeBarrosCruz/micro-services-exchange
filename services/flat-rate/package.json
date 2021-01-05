@@ -10,7 +10,7 @@
   "author": "FelipeBarrosCruz<felipe.barros.pt@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "hemera-joi": "^5.3.3",
     "hemera-stats": "^5.2.3",
     "joi": "^14.3.0",
